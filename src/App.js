@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import './index.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const faq = [
+  {
+    title: "Mission",
+    text: "Enable communities to develop themselves",
+  },
+  {
+    title: "Vision",
+    text: "To inspire communities to thrive"
+  },
+]
+
+export default function App(){
+return (
+  <div>
+    <h1>SWAHILIPOT</h1>
+    <Accordion data={faq}/>
+  </div>
+)
 }
 
-export default App;
+function Accordion({ data }){
+  return (
+    <div className='accordion'>
+      {data.map((el,i)=>(
+        <AccordionItem title={el.title} text={el.text} num={i} key={el.title}/>
+      ))}
+    </div>
+  )
+}
+
+function AccordionItem({title, text, num}){
+  const [isOpen, setIsOpen] = useState(false);
+  
+  function handleToggle(){
+    setIsOpen((isOpen) => !isOpen)
+  }
+
+  return (
+    <div className={`item ${isOpen ? "open":""}`} onClick={handleToggle}>
+      <p className='number'>{num < 9 ? `0${num+1}` : num+1}</p>
+      <p className='title'>{title}</p>
+      <p className='icon'>{isOpen ? "-":"+"}</p>
+      {isOpen && <div className='content-box'>{text}</div>}
+    </div>
+  )
+
+}
